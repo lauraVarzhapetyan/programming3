@@ -1,78 +1,61 @@
-//խոտի կլասը
-class Grass {
-    constructor(x, y) {
+class LivingCreature {
+    constructor(x, y, index){
         this.x = x;
         this.y = y;
-        // this.energy = 5;
-        this.multiply = 0; //բազմացման գործակից
-        this.directions = [];
-
-    }
-    //շրջապատի հետազոտության մատրիցը
-    newDirections() {
+        this.index = index;
         this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ];
+           [this.x - 1, this.y - 1],
+           [this.x, this.y - 1],
+           [this.x + 1, this.y - 1],
+           [this.x - 1, this.y],
+           [this.x + 1, this.y],
+           [this.x - 1, this.y + 1],
+           [this.x, this.y + 1],
+           [this.x + 1, this.y + 1]
+       ];
+ 
     }
-
-    //հետազոտում է շրջապատը, որոնում է հետաքրքրող կերպարներին
-    //կերպարը որոշվում է t արգումենտով
-    getDirections(t) {
-        this.newDirections();
+    chooseCell(ch) {
         var found = [];
         for (var i in this.directions) {
             var x = this.directions[i][0];
             var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == t) {
+            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length){
+                if (matrix[y][x] == ch) {
                     found.push(this.directions[i]);
                 }
-            }
+            }   
         }
         return found;
     }
+}
+//խոտի կլասը
+class Grass extends LivingCreature{
+    constructor(x, y, index) {
+        super(x, y, index);
+        this.multiply = 0;
 
-    //mul() Բազմացում
+    }
+  
     mul() {
-        this.multiply++;
-        if (this.multiply == 8) {
-            //Հետազոտում է շրջապատը, որոնում դատարկ տարածքներ
-            var fundCords = this.getDirections(0);
-            var cord = random(fundCords);
-            if (cord) {
-                var x = cord[0];
-                var y = cord[1];
-
-                //Ավելացնում է նոր խոտ խոտերի զանգվածում
-                var norXot = new Grass(x, y);
-                xotArr.push(norXot);
-
-                //Ավելացնում է նոր խոտի մասին գրառում հիմնական matrix-ում 
-                matrix[y][x] = 1;
-                this.multiply = 0;
-            }
-        }
+      this.multiply++;
+      var newCell = random(this.chooseCell(0));
+      if(this.multiply>=8 && newCell){
+          var newGrass = new Grass(newCell[0], newCell[1], this.index);
+          grassArr.push(newGrass);
+          matrix[newCell[1]][newCell[0]] = this.index;
+          this.multiply = 0;
+      }
     }
 }
 //խոտակերի կլասը
-class Eatgrass {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.multiply = 0;
-        this.energy = 100;
-        this.directions =[];
-    }
+class Eatgrass extends LivingCreature {
+    constructor(x, y, index) {
+        super(x, y, index);
+        this.energy = 8;
 
-    //շրջապատի հետազոտության մատրիցը
-    newDirections() {
+    }
+    getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -84,27 +67,11 @@ class Eatgrass {
             [this.x + 1, this.y + 1]
         ];
     }
-
-    //հետազոտում է շրջապատը, որոնում է հետաքրքրող կերպարներին
-    //կերպարը որոշվում է t արգումենտով
-    getDirections(t) {
-        this.newDirections();
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == t) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+    chooseCell(character) {
+        this.getNewCoordinates();
+        return super.chooseCell(character);
     }
-
-
-
-    //move() շարժվել
+ 
     move() {
         //որոնում է դատարկ տարածքներ
         var fundCords = this.getDirections(0);
