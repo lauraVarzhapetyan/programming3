@@ -2,7 +2,7 @@ var LivingCreature = require('./LivingCreature')
 module.exports = class Mat extends LivingCreature{
     constructor(x, y) {
         super(x, y);
-        this.energy=30;
+        this.energy=15;
         this.directions=[];
         for (var k = 0; k < matrix.length; k++) {
             if ((x + k) <= matrix[k].length && (y + k) <= matrix.length) {
@@ -36,7 +36,7 @@ module.exports = class Mat extends LivingCreature{
     move() {
         //որոնում է դատարկ տարածքներ
         var fundCords = this.chooseCell(0);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
 
         if (cord) {
             var x = cord[0];
@@ -57,7 +57,7 @@ module.exports = class Mat extends LivingCreature{
     eat() {
         //հետազոտում է շրջակայքը, որոնում է սնունդ
         var fundCords = this.chooseCell(3);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
         if (cord) {
             var x = cord[0];
             var y = cord[1];
@@ -67,9 +67,9 @@ module.exports = class Mat extends LivingCreature{
             this.y = y;
             this.multiply++;
             this.energy++;
-            for (var i in gishatichArr) {
-                if (x == gishatichArr[i].x && y == gishatichArr[i].y) {
-                    gishatichArr.splice(i, 1);
+            for (var i in GishatichArr) {
+                if (x == GishatichArr[i].x && y == GishatichArr[i].y) {
+                    GishatichArr.splice(i, 1);
                 }
             }
             if (this.multiply == 10) {
@@ -92,7 +92,7 @@ module.exports = class Mat extends LivingCreature{
     mul() {
         //փնտրում է դատարկ տարածք
         var fundCords = this.chooseCell(0);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
 
         //եթե կա բազմանում է
         if (cord) {
@@ -102,7 +102,7 @@ module.exports = class Mat extends LivingCreature{
             //ստեղծում է նոր օբյեկտ (այստեղ խոտակեր) 
             //և տեղադրում է այն խոտակերների զանգվածի մեջ
             var norMat = new Mat(x, y);
-            matArr.push(norMat);
+            MatArr.push(norMat);
 
             //հիմնական matrix-ում կատարում է գրառում նոր խոտի մասին
             matrix[y][x] = 5;
@@ -116,9 +116,9 @@ module.exports = class Mat extends LivingCreature{
         matrix[this.y][this.x] = 0;
 
         //!!! ԿԱՐԵՎՈՐ !!! ջնջում է ինքն իրեն խոտակերների զանգվածից
-        for (var i in matArr) {
-            if (this.x == matArr[i].x && this.y == matArr[i].y) {
-                matArr.splice(i, 1);
+        for (var i in MatArr) {
+            if (this.x == MatArr[i].x && this.y == MatArr[i].y) {
+                MatArr.splice(i, 1);
             }
         }
     }

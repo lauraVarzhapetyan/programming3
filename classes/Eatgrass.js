@@ -2,7 +2,7 @@ var LivingCreature = require('./LivingCreature')
 module.exports = class Eatgrass extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index);
-        this.energy = 8;
+        this.energy =250;
         this.directions=[];
 
     }
@@ -26,7 +26,7 @@ module.exports = class Eatgrass extends LivingCreature {
     move() {
         //որոնում է դատարկ տարածքներ
         var fundCords = this.chooseCell(0);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
 
         if (cord) {
             var x = cord[0];
@@ -47,7 +47,7 @@ module.exports = class Eatgrass extends LivingCreature {
     eat() {
         //հետազոտում է շրջակայքը, որոնում է սնունդ
         var fundCords = this.chooseCell(1);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
 
         //եթե կա հարմար սնունդ
         if (cord) {
@@ -71,9 +71,9 @@ module.exports = class Eatgrass extends LivingCreature {
 
             //!!! ԿԱՐԵՎՈՐ !!! սննդի զանգվածից ջնջում է կերված սնունդը
             //խոտակերի համար դա խոտն է, խոտերի զանգվածի մեջ xotArr
-            for (var i in xotArr) {
-                if (x == xotArr[i].x && y == xotArr[i].y) {
-                    xotArr.splice(i, 1);
+            for (var i in GrassArr) {
+                if (x == GrassArr[i].x && y == GrassArr[i].y) {
+                    GrassArr.splice(i, 1);
                 }
             }
 
@@ -98,7 +98,7 @@ module.exports = class Eatgrass extends LivingCreature {
     mul() {
         //փնտրում է դատարկ տարածք
         var fundCords = this.chooseCell(0);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
 
         //եթե կա բազմանում է
         if (cord) {
@@ -108,7 +108,7 @@ module.exports = class Eatgrass extends LivingCreature {
             //ստեղծում է նոր օբյեկտ (այստեղ խոտակեր) 
             //և տեղադրում է այն խոտակերների զանգվածի մեջ
             var norXotaker = new Eatgrass(x, y);
-            eatArr.push(norXotaker);
+            EatgrassArr.push(norXotaker);
 
             //հիմնական matrix-ում կատարում է գրառում նոր խոտի մասին
             matrix[y][x] = 2;
@@ -122,9 +122,9 @@ module.exports = class Eatgrass extends LivingCreature {
         matrix[this.y][this.x] = 0;
 
         //!!! ԿԱՐԵՎՈՐ !!! ջնջում է ինքն իրեն խոտակերների զանգվածից
-        for (var i in eatArr) {
-            if (this.x == eatArr[i].x && this.y == eatArr[i].y) {
-                eatArr.splice(i, 1);
+        for (var i in EatgrassArr) {
+            if (this.x == EatgrassArr[i].x && this.y == EatgrassArr[i].y) {
+                EatgrassArr.splice(i, 1);
             }
         }
     }

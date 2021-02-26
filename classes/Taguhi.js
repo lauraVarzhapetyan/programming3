@@ -2,7 +2,7 @@ var LivingCreature = require('./LivingCreature')
 module.exports = class Taguhi extends LivingCreature{
     constructor(x, y) {
         super(x, y);
-        this.energy=30;
+        this.energy=15;
         this.directions=[];
         for (var l = 0; l < matrix.length; l++) {
             var zangvac = [];
@@ -22,7 +22,7 @@ module.exports = class Taguhi extends LivingCreature{
     }
     move() {
         var fundCords = this.chooseCell(0);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
 
         if (cord) {
             var x = cord[0];
@@ -39,7 +39,7 @@ module.exports = class Taguhi extends LivingCreature{
     }
     eat() {
         var fundCords = this.chooseCell(2);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
         if (cord) {
             var x = cord[0];
             var y = cord[1];
@@ -48,9 +48,9 @@ module.exports = class Taguhi extends LivingCreature{
             this.x = x;
             this.y = y;
             this.energy = this.energy + 2;
-            for (var i in eatArr) {
-                if (x == eatArr[i].x && y == eatArr[i].y) {
-                    eatArr.splice(i, 1);
+            for (var i in EatgrassArr) {
+                if (x == EatgrassArr[i].x && y == EatgrassArr[i].y) {
+                    EatgrassArr.splice(i, 1);
                 }
             }
 
@@ -58,7 +58,7 @@ module.exports = class Taguhi extends LivingCreature{
         } else {
             //հետազոտում է շրջակայքը, որոնում է սնունդ
             var fundCords = this.chooseCell(1);
-            var cord = random(fundCords);
+            var cord = getRandomArrayElement(fundCords);
 
             //եթե կա հարմար սնունդ
             if (cord) {
@@ -79,9 +79,9 @@ module.exports = class Taguhi extends LivingCreature{
 
                 //!!! ԿԱՐԵՎՈՐ !!! սննդի զանգվածից ջնջում է կերված սնունդը
                 //խոտակերի համար դա խոտն է, խոտերի զանգվածի մեջ xotArr
-                for (var i in xotArr) {
-                    if (x == xotArr[i].x && y == xotArr[i].y) {
-                        xotArr.splice(i, 1);
+                for (var i in GrassArr) {
+                    if (x == GrassArr[i].x && y == GrassArr[i].y) {
+                        GrassArr.splice(i, 1);
                     }
                 }
 
@@ -103,9 +103,9 @@ module.exports = class Taguhi extends LivingCreature{
         matrix[this.y][this.x] = 0;
 
         //!!! ԿԱՐԵՎՈՐ !!! ջնջում է ինքն իրեն խոտակերների զանգվածից
-        for (var i in taguhiArr) {
-            if (this.x == taguhiArr[i].x && this.y == taguhiArr[i].y) {
-                taguhiArr.splice(i, 1);
+        for (var i in TaguhiArr) {
+            if (this.x == TaguhiArr[i].x && this.y == TaguhiArr[i].y) {
+                TaguhiArr.splice(i, 1);
             }
         }
     }

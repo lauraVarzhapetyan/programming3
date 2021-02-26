@@ -2,7 +2,7 @@ var LivingCreature = require('./LivingCreature')
 module.exports = class Gishatich extends LivingCreature{
     constructor(x, y) {
         super(x, y);
-        this.energy=8;
+        this.energy=150;
         this.directions=[];
     }
 
@@ -33,7 +33,7 @@ module.exports = class Gishatich extends LivingCreature{
     move() {
         //որոնում է դատարկ տարածքներ
         var fundCords = this.chooseCell(0);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
 
         if (cord) {
             var x = cord[0];
@@ -54,7 +54,7 @@ module.exports = class Gishatich extends LivingCreature{
     eat() {
         //հետազոտում է շրջակայքը, որոնում է սնունդ
         var fundCords = this.chooseCell(2);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
         if (cord) {
             var x = cord[0];
             var y = cord[1];
@@ -64,9 +64,9 @@ module.exports = class Gishatich extends LivingCreature{
             this.y = y;
             this.multiply++;
             this.energy++;
-            for (var i in eatArr) {
-                if (x == eatArr[i].x && y == eatArr[i].y) {
-                    eatArr.splice(i, 1);
+            for (var i in EatgrassArr) {
+                if (x == EatgrassArr[i].x && y == EatgrassArr[i].y) {
+                    EatgrassArr.splice(i, 1);
                 }
             }
             if (this.multiply == 10) {
@@ -89,7 +89,7 @@ module.exports = class Gishatich extends LivingCreature{
     mul() {
         //փնտրում է դատարկ տարածք
         var fundCords = this.chooseCell(0);
-        var cord = random(fundCords);
+        var cord = getRandomArrayElement(fundCords);
 
         //եթե կա բազմանում է
         if (cord) {
@@ -99,7 +99,7 @@ module.exports = class Gishatich extends LivingCreature{
             //ստեղծում է նոր օբյեկտ (այստեղ խոտակեր) 
             //և տեղադրում է այն խոտակերների զանգվածի մեջ
             var norGishatich = new Gishatich(x, y);
-            gishatichArr.push(norGishatich);
+            GishatichArr.push(norGishatich);
 
             //հիմնական matrix-ում կատարում է գրառում նոր խոտի մասին
             matrix[y][x] = 3;
@@ -113,9 +113,9 @@ module.exports = class Gishatich extends LivingCreature{
         matrix[this.y][this.x] = 0;
 
         //!!! ԿԱՐԵՎՈՐ !!! ջնջում է ինքն իրեն խոտակերների զանգվածից
-        for (var i in gishatichArr) {
-            if (this.x == gishatichArr[i].x && this.y == gishatichArr[i].y) {
-                gishatichArr.splice(i, 1);
+        for (var i in GishatichArr) {
+            if (this.x == GishatichArr[i].x && this.y == GishatichArr[i].y) {
+                GishatichArr.splice(i, 1);
             }
         }
     }
