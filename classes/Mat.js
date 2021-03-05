@@ -31,9 +31,9 @@ module.exports = class Mat extends LivingCreature{
 
 
 
-    //move() շարժվել
+ 
     move() {
-        //որոնում է դատարկ տարածքներ
+    
         var fundCords = this.chooseCell(0);
         var cord = getRandomArrayElement(fundCords);
 
@@ -41,20 +41,20 @@ module.exports = class Mat extends LivingCreature{
             var x = cord[0];
             var y = cord[1];
 
-            //կատարում է տեղափոխություն հիմնական matrix-ում 
+      
             matrix[y][x] = 5;
             matrix[this.y][this.x] = 0;
 
-            //թարմացնում է սեփական կորդինատները
+            
             this.x = x;
             this.y = y;
         }
     }
 
 
-    //eat()-ուտել
+    
     eat() {
-        //հետազոտում է շրջակայքը, որոնում է սնունդ
+        
         var fundCords = this.chooseCell(3);
         var cord = getRandomArrayElement(fundCords);
         if (cord) {
@@ -78,43 +78,39 @@ module.exports = class Mat extends LivingCreature{
 
 
         } else {
-            //եթե չկա հարմար սնունդ 
+            
             this.move();
             this.energy--;
-            if (this.energy <= 0) { //մահանում է, եթե էներգիան 3֊ից ցածր է
+            if (this.energy <= 0) { 
                 this.die();
             }
         }
     }
 
-    //mul() բազմանալ
+  
     mul() {
-        //փնտրում է դատարկ տարածք
+     
         var fundCords = this.chooseCell(0);
         var cord = getRandomArrayElement(fundCords);
 
-        //եթե կա բազմանում է
         if (cord) {
             var x = cord[0];
             var y = cord[1];
-            // this.multiply++;
-            //ստեղծում է նոր օբյեկտ (այստեղ խոտակեր) 
-            //և տեղադրում է այն խոտակերների զանգվածի մեջ
+           
             var norMat = new Mat(x, y);
             MatArr.push(norMat);
 
-            //հիմնական matrix-ում կատարում է գրառում նոր խոտի մասին
+           
             matrix[y][x] = 5;
-            // this.multiply = 0; //????????
+            
         }
     }
 
-    //die() մահանալ
     die() {
-        //Հիմնական մատրիցում իր դիրքում դնում է դատարկություն
+        
         matrix[this.y][this.x] = 0;
 
-        //!!! ԿԱՐԵՎՈՐ !!! ջնջում է ինքն իրեն խոտակերների զանգվածից
+       
         for (var i in MatArr) {
             if (this.x == MatArr[i].x && this.y == MatArr[i].y) {
                 MatArr.splice(i, 1);

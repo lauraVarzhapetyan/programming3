@@ -6,7 +6,6 @@ module.exports = class Gishatich extends LivingCreature{
         this.directions=[];
     }
 
-    //շրջապատի հետազոտության մատրիցը
     getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -20,8 +19,7 @@ module.exports = class Gishatich extends LivingCreature{
         ];
     }
 
-    //հետազոտում է շրջապատը, որոնում է հետաքրքրող կերպարներին
-    //կերպարը որոշվում է t արգումենտով
+    
     chooseCell(character) {
         this.getNewCoordinates();
         return super.chooseCell(character);
@@ -29,9 +27,8 @@ module.exports = class Gishatich extends LivingCreature{
 
 
 
-    //move() շարժվել
     move() {
-        //որոնում է դատարկ տարածքներ
+      
         var fundCords = this.chooseCell(0);
         var cord = getRandomArrayElement(fundCords);
 
@@ -39,20 +36,20 @@ module.exports = class Gishatich extends LivingCreature{
             var x = cord[0];
             var y = cord[1];
 
-            //կատարում է տեղափոխություն հիմնական matrix-ում 
+           
             matrix[y][x] = 3;
             matrix[this.y][this.x] = 0;
 
-            //թարմացնում է սեփական կորդինատները
+            
             this.x = x;
             this.y = y;
         }
     }
 
 
-    //eat()-ուտել
+
     eat() {
-        //հետազոտում է շրջակայքը, որոնում է սնունդ
+
         var fundCords = this.chooseCell(2);
         var cord = getRandomArrayElement(fundCords);
         if (cord) {
@@ -76,43 +73,39 @@ module.exports = class Gishatich extends LivingCreature{
 
 
         } else {
-            //եթե չկա հարմար սնունդ 
+             
             this.move();
             this.energy--;
-            if (this.energy <= 0) { //մահանում է, եթե էներգիան 3֊ից ցածր է
+            if (this.energy <= 0) { 
                 this.die();
             }
         }
     }
 
-    //mul() բազմանալ
+
     mul() {
-        //փնտրում է դատարկ տարածք
+        
         var fundCords = this.chooseCell(0);
         var cord = getRandomArrayElement(fundCords);
 
-        //եթե կա բազմանում է
+    
         if (cord) {
             var x = cord[0];
             var y = cord[1];
-            // this.multiply++;
-            //ստեղծում է նոր օբյեկտ (այստեղ խոտակեր) 
-            //և տեղադրում է այն խոտակերների զանգվածի մեջ
+            
             var norGishatich = new Gishatich(x, y);
             GishatichArr.push(norGishatich);
 
-            //հիմնական matrix-ում կատարում է գրառում նոր խոտի մասին
             matrix[y][x] = 3;
-            // this.multiply = 0; //????????
+            
         }
     }
 
-    //die() մահանալ
+ 
     die() {
-        //Հիմնական մատրիցում իր դիրքում դնում է դատարկություն
+       
         matrix[this.y][this.x] = 0;
 
-        //!!! ԿԱՐԵՎՈՐ !!! ջնջում է ինքն իրեն խոտակերների զանգվածից
         for (var i in GishatichArr) {
             if (this.x == GishatichArr[i].x && this.y == GishatichArr[i].y) {
                 GishatichArr.splice(i, 1);

@@ -2,11 +2,17 @@ var sideLength = 30;
 var numberOfSides = 20;
 
 var socket = io();
-function myFunction(){
+function rainbow(){
     socket.emit("thisEvent");
+    setTimeout(function(){
+        document.getElementById("myButton").disabled = true;
+    }, 50);
+    setTimeout(function(){
+        document.getElementById("myButton").disabled = false;
+    }, 5000);
 }
 
-function refresh(){
+function restart(){
     socket.emit("thatEvent");
 }
 
