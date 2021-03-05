@@ -1,36 +1,39 @@
 var sideLength = 30;
-var numberOfSides = 30;
+var numberOfSides = 20;
 
 var socket = io();
 function myFunction(){
     socket.emit("thisEvent");
 }
 
+function refresh(){
+    socket.emit("thatEvent");
+}
+
 socket.on('matrixUpdate', drawMatrix);
 
-
 function setup() {
-    noStroke();
     frameRate(5);
     createCanvas(numberOfSides * sideLength, numberOfSides * sideLength); 
     background('#acacac');
 }
 
-//draw ֆունկցիան գծում է «կադրերը», վարկյանում 60 կադր արագությամբ
-//եթե տրված չէ այլ կարգավորում frameRate ֆունկցիայի միջոցով
-//draw ֆունկցիան ինչ որ իմաստով անվերջ կրկնություն է (цикл, loop)
 function drawMatrix(data) {
     var matrix = data.matrix;
+    var weather = data.weather;
     background('#acacac');
     for (var i = 0; i < matrix.length; i++) {
         for (var j = 0; j < matrix[i].length; j++) {
             if (matrix[i][j] == 1) {
-                fill("green");
+                if(weather=='summer'){
+                fill("green");} else{
+                    fill("white");
+                }  
                 rect(j * sideLength, i * sideLength, sideLength, sideLength);
-            } else if (matrix[i][j] == 2) {
+            }else if (matrix[i][j] == 2) {
                 fill("orange");
                 rect(j * sideLength, i * sideLength, sideLength, sideLength);
-            } else if (matrix[i][j] == 0) {
+            }else if (matrix[i][j] == 0) {
                 fill('#acacac');
                 rect(j * sideLength, i * sideLength, sideLength, sideLength);
             } else if (matrix[i][j]==3){

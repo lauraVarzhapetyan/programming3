@@ -20,7 +20,6 @@ module.exports = class Mat extends LivingCreature{
                 this.directions.push(zangvac2);
             }
         }
-        console.log(this.directions);
     }
     getNewCoordinates() {
         this.directions;

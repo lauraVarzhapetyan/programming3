@@ -11,6 +11,7 @@ var Taguhi = require("./classes/Taguhi");
 var Mat = require("./classes/Mat");
 
 var weather = 'winter';
+var indexWeather = 0;
 var stats = [];
 
 matrix = [];
@@ -33,6 +34,43 @@ io.on('connection', function (socket) {
    console.log('a user connected');
    socket.on("thisEvent", function(data){
       console.log("this Event is being");
+      var n = matrix.length;
+      while(n!=0){
+          var k = getRandomInt(0, 6);
+          for (var i in matrix[n]){
+              matrix[n][i] = k;
+          }
+          n--;
+      }
+      GrassArr = [];
+      EatgrassArr = [];
+      GishatichArr = [];
+      TaguhiArr = [];
+      MatArr = [];
+      objectGenerator();
+      var data = {
+		'matrix': matrix,
+		'weather': weather
+	};
+	io.sockets.emit('matrixUpdate', data);
+	saveStats();
+
+   })
+   socket.on("thatEvent", function(data){
+    console.log("that Event is being");
+    GrassArr = [];
+    EatgrassArr = [];
+    GishatichArr = [];
+    TaguhiArr = [];
+    MatArr = [];
+    matrixGenerator(20,20);
+    objectGenerator();
+    var data = {
+		'matrix': matrix,
+		'weather': weather
+	};
+	io.sockets.emit('matrixUpdate', data);
+	saveStats();
    })
    socket.on('disconnect', function () {
 		console.log('user disconnected');
@@ -61,7 +99,11 @@ function matrixGenerator(row, column) {
 }
 
 function start(){
-   matrixGenerator(50, 50);
+   matrixGenerator(20, 20);
+   objectGenerator(); 
+}
+
+function objectGenerator(){
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 2) {
@@ -102,7 +144,7 @@ function game() {
     }
 	var data = {
 		'matrix': matrix,
-		'weater': weather
+		'weather': weather
 	};
 	io.sockets.emit('matrixUpdate', data);
 	saveStats();
@@ -122,6 +164,18 @@ function saveStats() {
     fs.writeFileSync(fileName, JSON.stringify(stats, null, 4));
 }
 
+function changeWeather() {
+    if(indexWeather%2==0){
+        weather = 'winter';
+    }
+    else{
+        weather = 'summer';
+    }
+    indexWeather++;
+}
+
 start();
 
 setInterval(game, 1000);
+
+setInterval(changeWeather, 4000);
