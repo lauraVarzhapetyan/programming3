@@ -1,9 +1,9 @@
 var LivingCreature = require('./LivingCreature')
-module.exports = class Mat extends LivingCreature{
+module.exports = class Mat extends LivingCreature {
     constructor(x, y) {
         super(x, y);
-        this.energy=15;
-        this.directions=[];
+        this.energy = 15;
+        this.directions = [];
         for (var k = 0; k < matrix.length; k++) {
             if ((x + k) <= matrix[k].length && (y + k) <= matrix.length) {
                 var zangvac1 = [];
@@ -31,9 +31,9 @@ module.exports = class Mat extends LivingCreature{
 
 
 
- 
+
     move() {
-    
+
         var fundCords = this.chooseCell(0);
         var cord = getRandomArrayElement(fundCords);
 
@@ -41,20 +41,20 @@ module.exports = class Mat extends LivingCreature{
             var x = cord[0];
             var y = cord[1];
 
-      
+
             matrix[y][x] = 5;
             matrix[this.y][this.x] = 0;
 
-            
+
             this.x = x;
             this.y = y;
         }
     }
 
 
-    
+
     eat() {
-        
+
         var fundCords = this.chooseCell(3);
         var cord = getRandomArrayElement(fundCords);
         if (cord) {
@@ -78,39 +78,39 @@ module.exports = class Mat extends LivingCreature{
 
 
         } else {
-            
+
             this.move();
             this.energy--;
-            if (this.energy <= 0) { 
+            if (this.energy <= 0) {
                 this.die();
             }
         }
     }
 
-  
+
     mul() {
-     
+
         var fundCords = this.chooseCell(0);
         var cord = getRandomArrayElement(fundCords);
 
         if (cord) {
             var x = cord[0];
             var y = cord[1];
-           
+
             var norMat = new Mat(x, y);
             MatArr.push(norMat);
 
-           
+
             matrix[y][x] = 5;
-            
+
         }
     }
 
     die() {
-        
+
         matrix[this.y][this.x] = 0;
 
-       
+
         for (var i in MatArr) {
             if (this.x == MatArr[i].x && this.y == MatArr[i].y) {
                 MatArr.splice(i, 1);

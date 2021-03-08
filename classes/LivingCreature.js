@@ -2,7 +2,7 @@ module.exports = class LivingCreature {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.multiply=0;
+        this.multiply = 0;
 
     }
     chooseCell(ch) {

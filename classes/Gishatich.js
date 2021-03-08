@@ -1,9 +1,9 @@
 var LivingCreature = require('./LivingCreature')
-module.exports = class Gishatich extends LivingCreature{
+module.exports = class Gishatich extends LivingCreature {
     constructor(x, y) {
         super(x, y);
-        this.energy=150;
-        this.directions=[];
+        this.energy = 150;
+        this.directions = [];
     }
 
     getNewCoordinates() {
@@ -19,7 +19,7 @@ module.exports = class Gishatich extends LivingCreature{
         ];
     }
 
-    
+
     chooseCell(character) {
         this.getNewCoordinates();
         return super.chooseCell(character);
@@ -28,7 +28,7 @@ module.exports = class Gishatich extends LivingCreature{
 
 
     move() {
-      
+
         var fundCords = this.chooseCell(0);
         var cord = getRandomArrayElement(fundCords);
 
@@ -36,11 +36,11 @@ module.exports = class Gishatich extends LivingCreature{
             var x = cord[0];
             var y = cord[1];
 
-           
+
             matrix[y][x] = 3;
             matrix[this.y][this.x] = 0;
 
-            
+
             this.x = x;
             this.y = y;
         }
@@ -73,10 +73,10 @@ module.exports = class Gishatich extends LivingCreature{
 
 
         } else {
-             
+
             this.move();
             this.energy--;
-            if (this.energy <= 0) { 
+            if (this.energy <= 0) {
                 this.die();
             }
         }
@@ -84,26 +84,26 @@ module.exports = class Gishatich extends LivingCreature{
 
 
     mul() {
-        
+
         var fundCords = this.chooseCell(0);
         var cord = getRandomArrayElement(fundCords);
 
-    
+
         if (cord) {
             var x = cord[0];
             var y = cord[1];
-            
+
             var norGishatich = new Gishatich(x, y);
             GishatichArr.push(norGishatich);
 
             matrix[y][x] = 3;
-            
+
         }
     }
 
- 
+
     die() {
-       
+
         matrix[this.y][this.x] = 0;
 
         for (var i in GishatichArr) {
