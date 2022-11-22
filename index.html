@@ -16,6 +16,7 @@
     <br>
 <button id="myButton" onclick="rainbow()">Rainbow</button>
 <button onclick="restart()">Restart</button><br><br>
+    <h1 >Weather:<p id="wheater"></p></h1>
     <table id="legend">
         <tr>
             <td class="legend-color">Գույն</td>
@@ -24,11 +25,13 @@
             <td>Ուտում է</td>
             <td>Բազմանում է</td>
             <td>Սատկում է</td>
+            <td>Քանակը</td>
         </tr>
 
         <tr>
             <td class="legend-color" style="background-color:gray"></td>
             <td>Դատարկ վանդակներ</td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -41,6 +44,7 @@
             <td></td>
             <td>Մոտակա 8 վանդակներում, 4 տակտը մեկ</td>
             <td></td>
+            <td id="GrassCount"></td>
         </tr>
         <tr>
             <td class="legend-color" style="background-color:yellow"></td>
@@ -49,6 +53,7 @@
             <td>Խոտերին, մոտակա 8 վանդակներում, շարժվելիս էներգիան ավելանում է 1֊ով</td>
             <td>Բազմանում է մոտակա տարածքներում, երբ էներգիան 10֊ից ավել է</td>
             <td>Սատկում է, երբ էներգիան փոքր է 0֊ից</td>
+            <td id="EatgrassCount"></td>
         </tr>
         <tr>
             <td class="legend-color" style="background-color:blue"></td>
@@ -57,6 +62,7 @@
             <td>Խոտակերներին, մոտակա 8 վանդակներում, շարժվելիս էներգիան ավելանում է 2֊ով</td>
             <td>Բազմանում է մոտակա տարածքներում, երբ էներգիան 15֊ից ավել է</td>
             <td>Սատկում է, երբ էներգիան փոքր է 0֊ից</td>
+            <td id="GishatichCount"></td>
         </tr>
         <tr>
             <td class="legend-color" style="background-color:red"></td>
@@ -65,6 +71,7 @@
             <td>Խոտակերներին, հորիզոնական գծի վրա, շարժվելիս էներգիան ավելանում է 2֊ով, եթե չկա խոտակեր` խոտ, էներգիան ավլեանում է 1-ով</td>
             <td>Չի բազմանում</td>
             <td>Սատկում է, երբ էներգիան փոքր է 0֊ից</td>
+            <td id="TaguhiCount"></td>
         </tr>
           <tr>
             <td class="legend-color" style="background-color:brown"></td>
@@ -73,6 +80,16 @@
             <td>Գիշատչին, անկյունագծի ցանկաված կետում, էներգիան ավելանում է 1-ով</td>
             <td>Բազմանում է իր ուղղության տարածքներում տարածքներում, երբ բազմացման գործակիցը  10֊ից ավել է</td>
             <td>Սատկում է, երբ էներգիան փոքր է 0֊ից</td>
+            <td id="MatCount"></td>
+        </tr>
+        <tr>
+            <td class="legend-color" style="background-color:black"></td>
+            <td>Հավասարեցուցիր</td>
+            <td>Կամայական շառավղի շրջագծով ցանկացած վանդակ, էներգիան քչանում է 1֊ով</td>
+            <td>Թագուհուն, Մատին իր ուղղությունների դաշտի ցանկացած կետում, էներգիան ավելանում է 1-ով</td>
+            <td>Բազմանում է իր ուղղության տարածքներում տարածքներում, երբ բազմացման գործակիցը  8֊ից ավել է</td>
+            <td>Սատկում է, երբ էներգիան փոքր է 3֊ից</td>
+            <td id="EqualizerCount"></td>
         </tr>
     </table>
 </body>

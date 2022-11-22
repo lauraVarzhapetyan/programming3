@@ -9,6 +9,7 @@ var Eatgrass = require("./classes/Eatgrass");
 var Gishatich = require("./classes/Gishatich");
 var Taguhi = require("./classes/Taguhi");
 var Mat = require("./classes/Mat");
+var Equalizer = require("./classes/Equalizer");
 
 var weather = 'winter';
 var indexWeather = 0;
@@ -21,6 +22,7 @@ EatgrassArr = [];
 GishatichArr = [];
 TaguhiArr = [];
 MatArr = [];
+eArr = [];
 
 app.use(express.static("."));
 
@@ -47,6 +49,7 @@ io.on('connection', function (socket) {
         GishatichArr = [];
         TaguhiArr = [];
         MatArr = [];
+        eArr = [];
         objectGenerator();
         var data = {
             'matrix': matrix,
@@ -63,6 +66,7 @@ io.on('connection', function (socket) {
         GishatichArr = [];
         TaguhiArr = [];
         MatArr = [];
+        eArr = [];
         matrixGenerator(20, 20);
         objectGenerator();
         var data = {
@@ -93,7 +97,7 @@ function matrixGenerator(row, column) {
     for (var n = 0; n < column; n++) {
         matrix[n] = [];
         for (var e = 0; e < row; e++) {
-            matrix[n][e] = getRandomInt(1, 6);
+            matrix[n][e] = getRandomInt(1, 7);
         }
     }
 }
@@ -121,6 +125,10 @@ function objectGenerator() {
             } else if (matrix[y][x] == 5) {
                 var mat = new Mat(x, y);
                 MatArr.push(mat);
+            } else if (matrix[y][x] == 6) {
+                var equalizer = new Equalizer(x, y);
+                eArr.push(equalizer);
+                console.log(eArr);
             }
         }
     }
@@ -142,6 +150,9 @@ function game() {
     for (var i in MatArr) {
         MatArr[i].eat();
     }
+    for (var i in eArr) {
+        eArr[i].eat();
+    }
     var data = {
         'matrix': matrix,
         'weather': weather
@@ -157,11 +168,13 @@ function saveStats() {
         'EatgrassCount': EatgrassArr.length,
         'GishatichCount': GishatichArr.length,
         'TaguhiCount': TaguhiArr.length,
-        'MatCount': MatArr.length
+        'MatCount': MatArr.length,
+        'EqualizerCount': eArr.length
     };
 
     stats.push(statsObject);
     fs.writeFileSync(fileName, JSON.stringify(stats, null, 4));
+    io.sockets.emit('statsUpdate', statsObject);
 }
 
 function changeWeather() {
